@@ -63,6 +63,7 @@ def make_samples(target, mask, seed):
         shutil.rmtree(target)
     os.makedirs(target)
 
+    all_backgrounds = json.load(open('all_backgrounds.json'))
     all_backgrounds = apply_mask(mask, all_backgrounds)
 
     all_voices = json.load(open('all_voices.json'))['voice']
@@ -121,11 +122,14 @@ def make_samples(target, mask, seed):
             audio = np.zeros((total_samples,), dtype=np.float)
             scales = []
             for background in backgrounds:
-                scale = random.uniform(0.3, 0.6)
+                # (0.3, 0.6) sounds a bit too challenging
+                #scale = random.uniform(0.3, 0.6)
+                scale = random.uniform(0.1, 0.3)
                 audio += background * scale
                 scales.append(scale)
 
-            scale = random.uniform(0.6, 1.0)
+            #scale = random.uniform(0.6, 1.0)
+            scale = random.uniform(0.9, 1.0)
             offset = int(pad_at_start * rate)
             #print "offset={}".format(offset)
             #print "len(speech)={}".format(len(speech))
